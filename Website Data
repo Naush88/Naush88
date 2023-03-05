@@ -1,0 +1,499 @@
+truncate table [dbo].[Marketing_Website_Tyre_Data]
+insert into [dbo].[Marketing_Website_Tyre_Data]
+select distinct M.ITMREF_0  as SKU,
+	--B.TEXTE_0 as Brand,
+	AD.A1_0 as Brand,
+	concat(M.ZWIDTH_0,'/',M.ZPROFILE_0,'R',M.ZDIAMETER_0) as Size,
+	M.ZWIDTH_0  as Width,
+	M.ZPROFILE_0 as [Profile],
+	M.ZDIAMETER_0  as Diameter,
+	M.ZLOADRATING_0 as Load_Rate,
+	M.ZSPEED_0 as Tyre_Speed,
+	M.ZRUNFLAT_0 as Run_Flat,
+	case 
+		when M.ZXL_0 = 1 then 'No'
+		when M.ZXL_0 = 2 then 'Yes'
+		else ''
+	end as Tyre_Extra_Load,
+	M.ZLETTERING_0 as Tyre_Lettering,
+	M.ZTECH_0 as Technology,
+	concat(concat(M.ZWIDTH_0,'/',M.ZPROFILE_0,'R',M.ZDIAMETER_0),' ',M.ZLOADRATING_0,M.ZSPEED_0,' ',AE.TEXTE_0,' ',M.ZOEM_0,' ',M.ZRUNFLAT_0,' ',M.ZTECH_0) as Product_Name,
+	M.ZTREAD_0 as Tread_Pattern,
+	AT.A1_0 as 'Brand Description',
+	AT.A2_0 as 'Best Application',
+	AT.A3_0 as 'Attribute1',
+	replace(isnull(left(A1.ZDES1_0,250),''),'"','') as 'Attribute1 Descr',
+	AT.A4_0 as 'Attribute2',
+	replace(isnull(left(A2.ZDES1_0,250),''),'"','') as 'Attribute2 Descr',
+	AT.A5_0 as 'Attribute3',
+	replace(isnull(left(A3.ZDES1_0,250),''),'"','') as 'Attribute3 Descr',
+	AT.A6_0 as 'Attribute4',
+	replace(isnull(left(A4.ZDES1_0,250),''),'"','') as 'Attribute4 Descr',
+	AT.A7_0 as 'Attribute5',
+	replace(isnull(left(A5.ZDES1_0,250),''),'0','') as 'Attribute5 Descr',
+	AT.A8_0 as 'Attribute6',
+	replace(isnull(left(A6.ZDES1_0,250),''),'0','') as 'Attribute6 Descr',
+	AT.A9_0 as 'Attribute7',
+	replace(isnull(left(A7.ZDES1_0,250),''),'0','') as 'Attribute7 Descr',
+	AE.TEXTE_0 AS 'Long description',
+	AE1.TEXTE_0 AS 'Short Description',
+	0 as QOH,
+	M.ZOEM_0 as [OEM],
+	M.ZOEMR_0 as [OEM Vehicle],
+	'' as [OEM_Descr],
+	'' as Run_Flat_Descr,
+	'' as Tyre_Lettering_Descr,	
+	'' as Width_Descr,
+	'' as Diameter_Descr,
+	'' as Profile_Descr,
+	'' as Load_Rate_Descr,
+	'' as Tyre_Speed_Descr,
+	AE.TEXTE_0 as Tread_Descr,
+	M.ZSERVICECODE_0 as Service_Code,
+	0.00 as ZAR_Retail_Price,
+          
+	case 
+		when M.ZTIER_0 = 1 then 'Premium Range'
+		when M.ZTIER_0 = 2 then 'Mid Range'
+		when M.ZTIER_0 = 3 then 'Economy Range'
+		else ''
+	end as [Range],
+	0 as ZIM_QOH,
+	0.00 as ZIM_Retail_Price,
+	AT.A10_0 as Warranty_Descr,
+	AT.A11_0 as Image_URL,
+	replace(isnull(left(A8.ZDES1_0,250),''),'"','')as 'Brand Description Long',
+	'' as Technology_Descr,
+	CASE WHEN AT.N1_0 = 2 THEN 'Yes' Else 'No' END AS 'TWT_Wesbite',
+	CASE WHEN AT.N2_0 = 2 THEN 'Yes' Else 'No' END AS 'TNM_Website',
+	CASE WHEN AT.N3_0 = 2 THEN 'Yes' Else 'No' END AS 'TWTZIM_Website',
+	A9.ZDES1_0 as 'Brand_Logo_Image_URL',
+	A10.ZDES1_0 as 'Product_Image_URL',
+                0.00 as ZAR_National_Special_Price,
+                0.00 as National_Special_Percentage,
+                0.00 as Over_The_Counter_Cash,
+                concat(AE.TEXTE_0,' ',M.ZWIDTH_0,'/',M.ZPROFILE_0,'R',M.ZDIAMETER_0) as Variant_ID,
+               case 
+		when M.ZXL_0 = 2 then 'XL'
+		else ''
+	end as Variant_ID2a,
+                '' as Variant_ID2,
+                '' as Short_Variant,
+                '' as FB_Descrip,
+	0.00 as Quote,
+	0.00 as In_Store_Price,
+                concat(AE.TEXTE_0,' ',M.ZWIDTH_0,'/',M.ZPROFILE_0,'R',M.ZDIAMETER_0) as FB_Name,
+                AE.TEXTE_0 as Listing_Name,
+	AE.TEXTE_0 as Prod_Page_Name,
+	AE.TEXTE_0 as Product_Name_Short,
+	Concat(AD.A1_0,' ',AE.TEXTE_0) as Product_Name_Codensed,
+                '' as Tyre_Feature_Combined,
+                'Tyres' as Categories,
+                '' as Tyre_Popovers,
+                '' as Tyre_Features,
+                '' as Meta_Description,
+                '' as Meta_File,
+                 Case 
+	   when  M.ZRUNFLAT_0 IN ('RFT','RF','ZP','ROF','SSR') then 'Yes'
+	   else 'No' 
+	   end as RunF,
+                 '' as NSP,
+                   Case 
+	          when AT.N1_0 = 2 Then 'TWT'
+                          when AT.N2_0 = 2 Then 'TNM'
+	          when AT.N3_0 = 2 Then 'TWTZIM'
+                          when AT.N1_0 =2 AND AT.N2_0 = 2 AND AT.N3_0 = 2 Then 'TWT-TNM-TWTZIM'
+	          when AT.N1_0 =2 AND AT.N2_0 = 2 Then 'TWT-TNM'
+	          when AT.N2_0 = 2 AND AT.N3_0 = 2 Then 'TNM-TWTZIM'
+	          when AT.N1_0 = 2 AND AT.N3_0 = 2 Then 'TWT-TWTZIM'
+	    End as 'Website',
+                   0.00 as Main_Price,
+                 ' ' as Gallery_Images,
+                 ' ' as Gallery_Image_Url,
+                 ' ' as Gallery_Images1,
+                 ''  as Key_Features,
+                --AC.TEXTE_0 as Group_5,
+                 Case when AC.TEXTE_0 IS NULL  then ' ' else 'Promotion'  end as Group_5,
+                 ' ' as Key_FeaturesPipe,
+                 Concat(AE1.TEXTE_0,M.ZWIDTH_0,M.ZPROFILE_0,M.ZDIAMETER_0) as Parent_SKU,
+                 CASE WHEN AT.N4_0 = 2 THEN 'Yes' Else 'No' END AS 'TS_Website',
+                 ' ' as SOH,
+                 ' ' as TS_Shop_Price,
+                 Concat(AE1.TEXTE_0,'WI1') as Shortkey_1,
+                 Concat(AE1.TEXTE_0,'WI2') as Shortkey_2,
+                 Concat(AE1.TEXTE_0,'WI3') as Shortkey_3,
+                 ' ' as Shortkey_1Image,
+                 ' ' as Shortkey_2Image,
+	 ' ' as Shortkey_3Image,
+                 ' ' as TS_Website_Indicator,
+                 CASE when AC.TEXTE_0 = 'tyre.shop' Then 'Yes' else 'No' end as 'Hot_Deals',
+                 ' ' as Hot_Deal_Indicator,
+                 A9.ZCOD_0 AS Product_Code,
+                 ' ' as Categories_New
+
+from [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMMASTER M with (nolock)
+--left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMSALES P with (nolock) on M.ITMREF_0 = P.ITMREF_0
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATABDIV AT WITH (NOLOCK) on M.TSICOD_2 = AT.CODE_0
+INNER JOIN [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AE WITH (NOLOCK) ON AT.CODE_0 = AE.IDENT2_0 AND AE.IDENT1_0 = '22' AND AE.CODFIC_0 = 'ATABDIV' AND AE.LANGUE_0 = 'ENG' AND AE.ZONE_0 = 'LNGDES'
+INNER JOIN [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AE1 WITH (NOLOCK) ON AT.CODE_0 = AE1.IDENT2_0 AND AE1.IDENT1_0 = '22' AND AE1.CODFIC_0 = 'ATABDIV' AND AE1.LANGUE_0 = 'ENG' AND AE1.ZONE_0 = 'SHODES'
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A1 with (nolock) on AT.A3_0 = A1.ZCOD_0 --Attribute 1
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A2 with (nolock) on AT.A4_0 = A2.ZCOD_0 --Attribute 2
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A3 with (nolock) on AT.A5_0 = A3.ZCOD_0 --Attribute 3
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A4 with (nolock) on AT.A6_0 = A4.ZCOD_0 --Attribute 4
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A5 with (nolock) on AT.A7_0 = A5.ZCOD_0 --Attribute 5
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A6 with (nolock) on AT.A8_0 = A6.ZCOD_0 --Attribute 6
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A7 with (nolock) on AT.A9_0 = A7.ZCOD_0 --Attribute 7
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A8 with (nolock) on AT.A1_0 = A8.ZCOD_0 --Brand Description
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA B with (nolock) on M.TSICOD_1 = B.IDENT2_0  --Brand
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA C with (nolock) on M.TSICOD_2 = C.IDENT2_0 --(Product Category)
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATABDIV AD WITH (NOLOCK) on M.TSICOD_1 = AD.CODE_0
+INNER JOIN [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AF WITH (NOLOCK) ON AD.CODE_0 = AF.IDENT2_0 AND AF.IDENT1_0 = '21' AND AF.CODFIC_0 = 'ATABDIV' AND AF.LANGUE_0 = 'ENG' AND AE.ZONE_0 = 'LNGDES'
+INNER JOIN [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AF1 WITH (NOLOCK) ON AD.CODE_0 = AF1.IDENT2_0 AND AF1.IDENT1_0 = '21' AND AF1.CODFIC_0 = 'ATABDIV' AND AF1.LANGUE_0 = 'ENG' AND AF1.ZONE_0 = 'SHODES'
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A9 with (nolock) on AD.CODE_0 = A9.ZCOD_0 --Brand Logo Image URL
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZITMMRK A10 with (nolock) on AE1.TEXTE_0 = A10.ZCOD_0 --Product Image URL
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATABDIV AB WITH (NOLOCK) on M.TSICOD_4 = AB.CODE_0 --(Group Item Hero Main etc)
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AC WITH (NOLOCK) ON AB.CODE_0 = AC.IDENT2_0 AND AC.IDENT1_0 = '24' AND AC.CODFIC_0 = 'ATABDIV' AND AC.LANGUE_0 = 'ENG' AND AC.ZONE_0 = 'LNGDES'
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA AC1 WITH (NOLOCK) ON AB.CODE_0 = AC1.IDENT2_0 AND AC1.IDENT1_0 = '24' AND AC1.CODFIC_0 = 'ATABDIV' AND AC1.LANGUE_0 = 'ENG' AND AC1.ZONE_0 = 'SHODES'
+WHERE M.ITMSTA_0 = 1 and  AT.NUMTAB_0 = '22' and M.TSICOD_0 = 'T' and AD.NUMTAB_0 = '21'  
+--and AB.NUMTAB_0 = '24' 
+and (AT.N1_0 = '2' or AT.N2_0 = '2' or AT.N3_0 = '2' or AT.N4_0 = '2')
+And B.CODFIC_0	= 'ATABDIV' And	B.IDENT1_0 = 21 And	B.ZONE_0 = 'LNGDES'
+And C.CODFIC_0	= 'ATABDIV'	And	C.IDENT1_0 = 22 And	C.ZONE_0 = 'LNGDES'
+and AD.A1_0 <> 'Barum'
+order by M.ZRUNFLAT_0
+
+
+--Update Run FLat Descr AC.TEXTE_0
+update a
+set a.Run_Flat_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Run_Flat COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Run_Flat <> ' ' and  S.CODFIC_0= 'ATABDIV'   And	S.IDENT1_0 = 6022 And	S.ZONE_0 IN ( 'LNGDES','SHODES')
+
+--update Tyre_Lettering_Descr
+update a
+set a.Tyre_Lettering_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Tyre_Lettering COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Tyre_Lettering <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6021 And S.ZONE_0 = 'LNGDES'
+
+--update Width_Descr
+update a
+set a.Width_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Width  COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Width <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6020 And S.ZONE_0 = 'LNGDES'
+
+--update Diameter_Descr
+update a
+set a.Diameter_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Diameter COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Diameter <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6011 And S.ZONE_0 = 'LNGDES'
+
+--update Profile_Descr
+update a
+set a.Profile_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.[Profile] COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.[Profile] <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6023 And S.ZONE_0 = 'LNGDES'
+
+--update Technology_Descr
+update a
+set a.Technology_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Technology COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Technology <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 12017 And S.ZONE_0 = 'LNGDES'
+
+--update Tyre_Speed_Descr
+update a
+set a.Tyre_Speed_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Tyre_Speed COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Tyre_Speed <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6028 And S.ZONE_0 = 'LNGDES'
+
+--update Load_Rate_Descr
+update a
+set a.Load_Rate_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.Load_Rate COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.Load_Rate <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6024 And S.ZONE_0 = 'LNGDES'
+
+--update OEM_Descr
+update a
+set a.OEM_Descr = S.TEXTE_0
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATEXTRA S
+on  a.[OEM] COLLATE SQL_Latin1_General_CP1_CI_AS = S.IDENT2_0
+where a.[OEM] <> '' and S.CODFIC_0	= 'ATABDIV'	And	S.IDENT1_0 = 6025 And S.ZONE_0 = 'LNGDES'
+
+--Update Retail Price
+update a
+set a.ZAR_Retail_Price = S.ZAR_Retail_Price
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SKU_Price] S
+on  a.SKU = S.SKU
+
+--Update ZAR National Special Price
+update a
+set a.ZAR_National_Special_Price = S.Discount_Price * 1.15
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Website_Pricing_Table] S
+on a.SKU = S.Part_number
+where Discount_Type = 'TMNS' 
+--and Index_Value = 'CURRENT'
+
+--update National_Special_percentage
+update a
+set a.National_Special_Percentage = (S.Base_price - S.Discount_Price) / S.Base_price *100
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Website_Pricing_Table] S
+on a.SKU = S.Part_number
+where Discount_Type =  'TMNS' 
+--and Index_Value = 'CURRENT'
+
+-- update Over_The_Counter_Cash
+update a
+set a.Over_The_Counter_Cash = (S.Base_price - ((S.Base_price / 100) * S.Discount_Perc)) * 1.15
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Website_Pricing_Table] S
+on a.SKU = S.Part_number
+where Discount_Type = 'TMPT' 
+and Index_Value = 'CURRENT'
+
+--Update Variant_ID2
+Update [dbo].[Marketing_Website_Tyre_Data]
+Set Variant_ID2 = replace(replace(isnull(Concat(replace(isnull(left(OEM_Descr,250),''),'   ',''),' ',replace(replace(replace(replace(isnull(left(Run_Flat_Descr,250),''),'    ',''),'   ',''),'  ',''),' ',''),' ',replace(isnull(left(Technology_Descr,250),''),'  ','')
+,' ',replace(isnull(left(Load_Rate,250),''),'  ',''),' ',replace(isnull(left(Tyre_Speed,250),''),'  ',''),' ',replace(isnull(left(Variant_ID2a,250),''),'  ',''),' ',replace(isnull(left(Tyre_Lettering,250),''),'  ','')),''),'   ',''),'  ',' ')
+
+--Update Short_Variant
+Update [dbo].[Marketing_Website_Tyre_Data]
+set Short_Variant = replace(Concat(replace(isnull(Size,''),'  ',''),' ',replace(isnull([OEM],''),'  ',''),' ',replace(isnull(Run_Flat,''),'  ',''),' ',replace(isnull(Technology,''),'  ',''),' ',replace(isnull(Load_Rate,''),'  ',''),' ',replace(isnull(Tyre_Speed,''),'  ',''),' ',replace(isnull(Variant_ID2a,''),'  ',''),' ',replace(isnull(Tyre_Lettering,''),'  ','')),'  ','')
+
+--Update FB_Descrip
+Update [dbo].[Marketing_Website_Tyre_Data]
+Set FB_Descrip = replace(Concat(replace(isnull(left((SUBSTRING(Attribute1_Descr, 0, CHARINDEX(';',Attribute1_Descr))),350),''),'  ',' '),' ',replace(isnull(left((SUBSTRING(Attribute2_Descr, 0, CHARINDEX(';',Attribute2_Descr))),350),''),'  ',' '),
+' ',replace(isnull(left((SUBSTRING(Attribute3_Descr, 0, CHARINDEX(';',Attribute3_Descr))),350),''),'  ',' '),' ',replace(isnull(left((SUBSTRING(Attribute4_Descr, 0, CHARINDEX(';',Attribute4_Descr))),350),''),'  ',' ')),',','')
+
+--Update Tyre_Feature_Combined
+Update [dbo].[Marketing_Website_Tyre_Data]
+set Tyre_Feature_Combined = replace(isnull(Concat(replace(isnull(left(Attribute1_Descr,350),''),';',' '),' ',replace(isnull(left(Attribute2_Descr,350),''),';',' '),' ',replace(isnull(left(Attribute3_Descr,350),''),';',' ')
+,' ',replace(isnull(left(Attribute4_Descr,350),''),';',' '),' ',replace(replace(isnull(left(Attribute5_Descr,350),''),'0',''),';',' '),' ',replace(replace(isnull(left(Attribute6_Descr,350),''),'0',''),';',' '),' ',replace(replace(isnull(left(Attribute7_Descr,350),''),'0',''),';',' ')),''),'.',';')
+
+--Update Tyre_Popovers
+update [dbo].[Marketing_Website_Tyre_Data]
+set Tyre_Popovers = replace(replace(isnull(Concat(Attribute1_Descr,' ',Attribute2_Descr,' ',Attribute3_Descr),''),';',' '),'.',';')
+
+--Update Tyre_Features
+Update [dbo].[Marketing_Website_Tyre_Data]
+set Tyre_Features = Concat(replace(isnull(left(Attribute4_Descr,350),''),'"',''),'',replace(isnull(left(Attribute5_Descr,350),''),'0','')
+,'',replace(isnull(left(Attribute6_Descr,350),''),'0',''),'',replace(isnull(left(Attribute7_Descr,350),''),'0',''))
+
+--Update Meta_Description
+Update [dbo].[Marketing_Website_Tyre_Data]
+set Meta_Description = Concat('Choose',' ', Brand,' ',Variant_ID,'.','Available at Tiger Wheel & Tyre')
+
+--Update Meta_File
+Update [dbo].[Marketing_Website_Tyre_Data]
+set Meta_File = Concat(Brand,' ',Variant_ID)
+
+--Update NSP
+Update [dbo].[Marketing_Website_Tyre_Data]
+Set NSP = case when ZAR_National_Special_Price  >  1  then 'Yes'  else 'No' End
+from [dbo].[Marketing_Website_Tyre_Data] 
+
+
+--Update Main_Price
+Update [dbo].[Marketing_Website_Tyre_Data]
+Set Main_Price =  case when ZAR_National_Special_Price > 1 then ZAR_National_Special_Price
+                             when ZAR_National_Special_Price < 1 then Over_The_Counter_Cash
+	             else ''
+	             End
+from [dbo].[Marketing_Website_Tyre_Data] 
+
+--Update Key_Features
+update [dbo].[Marketing_Website_Tyre_Data]
+set Key_Features = replace(Concat(Attribute1_Descr,';',Attribute2_Descr,';',Attribute3_Descr),';',' ')
+
+--Update Key_Features
+update [dbo].[Marketing_Website_Tyre_Data]
+set Key_FeaturesPipe = replace(replace(Concat(Attribute1_Descr,' ',Attribute2_Descr,' ',Attribute3_Descr),';',' '),'.',' |')
+
+--Update TS_Website
+--Update [dbo].[Marketing_Website_Tyre_Data]
+--Set TS_Website =  case when Brand = 'Velocity' then 'No'
+--else 'Yes'End
+--from [dbo].[Marketing_Website_Tyre_Data]
+
+--Update SOH
+Update a
+set a.SOH = case when s.TotalSOH < 10 then 'Out of Stock'
+                        when s.TotalSOH between 10 and 60 then 'Limited Stock'
+	        when s.TotalSOH > 60 then 'In-Stock'
+	        else ''
+	        End
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SOH_TWT_Tyres] s
+on a.sku = s.sku
+
+--Update TS Shop Price
+update a
+set a.TS_Shop_Price = S.Discount_Price * 1.15
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Website_Pricing_Table] S
+on a.SKU = S.Part_number
+where Discount_Type = 'TMIS'
+and Branch = 'TSHOF'
+
+--Update TS Shop Price
+update [dbo].[Marketing_Website_Tyre_Data]
+set TS_Shop_Price = Main_Price
+where TS_Shop_Price = ' '
+
+--update a
+--set a.TS_Shop_Price = S.ZAR_Retail_Price
+--from [dbo].[Marketing_Website_Tyre_Data] a
+--inner join [dbo].[Marketing_Website_SKU_Price] S
+--on  a.SKU = S.SKU
+
+--Shortkey_1Image
+Update a
+Set a.Shortkey_1Image = Q.IMAGELINK
+from [dbo].[Marketing_Website_Tyre_Data] a
+Inner join [dbo].[Marketing_Website_Images] Q
+on a.Shortkey_1 = Q.SHORTKEY
+
+--Shortkey_1Image
+Update a
+Set a.Shortkey_1Image = case when a.Shortkey_1Image = ' ' then Q.ZDES1_0 else a.Shortkey_1Image end
+from [dbo].[Marketing_Website_Tyre_Data] a
+Inner join [Marketing_Website_Image_Placeholder] Q
+on a.Product_Code = Q.Product_Code
+
+--Shortkey_2Image
+Update a
+Set a.Shortkey_2Image = Q.IMAGELINK
+from [dbo].[Marketing_Website_Tyre_Data] a
+Inner join [dbo].[Marketing_Website_Images] Q
+on a.Shortkey_2 = Q.SHORTKEY
+
+--Shortkey_3Image
+Update a
+Set a.Shortkey_3Image = Q.IMAGELINK
+from [dbo].[Marketing_Website_Tyre_Data] a
+Inner join [dbo].[Marketing_Website_Images] Q
+on a.Shortkey_3 = Q.SHORTKEY
+
+--TS_Website_Indicator
+Update a
+Set a.TS_Website_Indicator = case when s.TotalSOH > 60 then 'Yes' else 'No' End 
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SOH_TWT_Tyres] s
+on a.sku = s.sku
+where a.TS_Website = 'Yes' 
+
+--TS_Website_Indicator
+Update a
+Set a.TS_Website_Indicator = 'No'
+from [dbo].[Marketing_Website_Tyre_Data] a
+where a.TS_Website = 'No'
+
+--Hot_Deal_Indicator
+Update a
+Set a.Hot_Deal_Indicator = case when s.TotalSOH > 3 then 'Hot Deal' else ' ' End 
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SOH_TWT_Tyres] s
+on a.sku = s.sku
+where a.Hot_Deals = 'Yes'
+
+--Hot_Deal_Indicator
+Update a
+Set a.Hot_Deal_Indicator = ' '
+from [dbo].[Marketing_Website_Tyre_Data] a
+where a.Hot_Deals = 'No'
+
+--TS_Website_Indicator
+Update a
+Set a.TS_Website_Indicator = case when a.Hot_Deal_Indicator = 'Hot Deal' then 'Yes' else 'No' End
+from [dbo].[Marketing_Website_Tyre_Data] a
+where a.TS_Website_Indicator = 'No'
+
+--Categories_New
+update [dbo].[Marketing_Website_Tyre_Data]
+Set Categories_New = Concat('Tyres',';',Hot_Deal_Indicator,';',Group_5)
+			
+--Insert the SOH for TWT and Supplier
+truncate table [dbo].[Marketing_Website_SOH_TWT_Tyres]
+insert into [dbo].[Marketing_Website_SOH_TWT_Tyres]
+select 'TWT' as Division,ITMREF_0 as SKU,isnull(TiAutoSOH,0) as SOH,isnull(SuppSOH,0) as SuppSOH,(isnull(TiAutoSOH,0)+isnull(SuppSOH,0)) as TotalSOH from 
+(select 'TiAutoSOH' as [Type], M.ITMREF_0, sum(R.PHYSTO_0) as QTY from [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMMASTER M with (nolock)
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATABDIV AT WITH (NOLOCK) on M.TSICOD_2 = AT.CODE_0
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMMVT R with (nolock) on M.ITMREF_0 = R.ITMREF_0
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.FACILITY F with (nolock) on R.STOFCY_0 = F.FCY_0
+where  R.PHYSTO_0 <> 0 and F.LEGCPY_0 like 'TW%' and R.STOFCY_0 not in ('TFTES','TF05E') and M.TSICOD_0 = 'T' and M.ITMSTA_0 = 1 and (AT.N1_0 = 2
+OR AT.N3_0 = 2
+OR AT.N4_0 = 2)
+and F.ZCOMFRAN_0 = 1 and F.ZREPOFLG_0 = 2
+group by M.ITMREF_0
+union all
+select 'SuppSOH' as [Type], M.ITMREF_0,Sum(Z.ZQTY_0) as QTY from [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMMASTER M with (nolock)
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ATABDIV AT WITH (NOLOCK) on M.TSICOD_2 = AT.CODE_0
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ITMBPS S with (nolock)
+on M.ITMREF_0 = S.ITMREF_0
+inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.LIVE.ZSUPSTK Z with (nolock)
+on S.ITMREFBPS_0 = Z.ZVENITMREF_0 and S.BPSNUM_0 = Z.ZBPSNUM_0
+  where  M.TSICOD_0 = 'T' and M.ITMSTA_0 = 1 and (AT.N1_0 = 2
+OR AT.N3_0 = 2
+OR AT.N4_0 = 2)
+group by M.ITMREF_0)t
+pivot(
+	sum(QTY)
+	for [Type] in ([TiAutoSOH],[SuppSOH])
+) as Pivot_Table
+
+update a
+set a.QOH = S.TotalSOH
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SOH_TWT_Tyres] S
+on  a.[SKU]  = S.SKU
+where Division = 'TWT'
+
+--Insert the SOH for TWTZIM 
+truncate table [dbo].[Marketing_Website_SOH_TWTZIM_Tyres]
+insert into [dbo].[Marketing_Website_SOH_TWTZIM_Tyres]
+select 'TWTZIM' as Division,t.ITMREF_0 as SKU,isnull(TiAutoSOH,0) as SOH,isnull(SuppSOH,0) as SuppSOH,(isnull(TiAutoSOH,0)+isnull(SuppSOH,0)) as TotalSOH, Isnull(cast(S.BASPRI_0 as Decimal(38,2)),0.00) as Zim_Retail_Price from 
+(select 'TiAutoSOH' as [Type], M.ITMREF_0, sum(R.PHYSTO_0) as QTY from [HZ-X3LIVESQL01\SAGEX3].x3dat.TWTZIM.ITMMASTER M with (nolock)
+--inner join [HZ-X3LIVESQL01\SAGEX3].x3dat.TWTZIM.ATABDIV AT WITH (NOLOCK) on M.TSICOD_2 = AT.CODE_0
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.TWTZIM.ITMMVT R with (nolock)
+on M.ITMREF_0 = R.ITMREF_0
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.TWTZIM.FACILITY F with (nolock)
+on R.STOFCY_0 = F.FCY_0
+where  F.LEGCPY_0 like 'TW%' and R.STOFCY_0 not in ('TFTES','TF05E') and M.TSICOD_0 = 'T' --and AT.N1_0 = 2
+group by M.ITMREF_0
+)t
+pivot(
+	sum(QTY)
+	for [Type] in ([TiAutoSOH],[SuppSOH])
+) as t
+left join [HZ-X3LIVESQL01\SAGEX3].x3dat.TWTZIM.ITMSALES S on t.ITMREF_0 = S.ITMREF_0
+
+update a
+set a.ZIM_QOH = S.TotalSOH, a.ZIM_Retail_Price = S.ZIM_Retail_Price
+from [dbo].[Marketing_Website_Tyre_Data] a
+inner join [dbo].[Marketing_Website_SOH_TWTZIM_Tyres] S
+on  a.[SKU]  = S.SKU
+where Division = 'TWTZIM'
+
+delete from [dbo].[Marketing_Website_Tyre_Data]
+where [Profile] = 'NONE' or Width = 'NONE' or Diameter = 'NONE' or Load_Rate = 'NONE' or Run_Flat = 'NONE' or Tyre_SPeed = 'NONE' or Tyre_Extra_Load = 'NONE' or Tyre_Lettering = 'NONE' or  Technology = 'NONE' or Tread_Pattern = 'NONE'
+
+delete from [dbo].[Marketing_Website_Tyre_Data]
+where  QOH <= 1
